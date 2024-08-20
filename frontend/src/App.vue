@@ -1,5 +1,13 @@
 <template>
 
+  {{ count }}
+
+  {{ userName }}
+
+  <ul>
+    <li v-for="user in users">{{ user.firstName }} - {{ user.age }}</li>
+  </ul>
+
   <div v-if="showHeader">
     <Header />
   </div>
@@ -26,12 +34,23 @@ import Header from '@/components/Header.vue';
     data(){
       return {
         count:0,
-        showHeader:false
+        showHeader:false,
+        userName:"Leonardo",
+        users:[
+          {
+            firstName:"Leonardo",
+            age:21
+          },
+          {
+            firstName:"Ana",
+            age:23
+          },
+        ]
       }
     },
 
     mounted(){
-      console.log('mounted');
+      console.log(this.count);
     },
 
     updated(){
