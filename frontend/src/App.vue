@@ -1,27 +1,30 @@
 <template>
+
+  {{ count }}
+
+  <button v-on:click="count++">Add</button>
   
-  <Header />
-
-  <button v-on:click="add">Add {{ count }}</button>
-
   <h2>App</h2>
 
-  <Footer/>
+  <router-link to="/">Home</router-link>
+  <router-link to="/about">About</router-link>
+
+  <router-view></router-view>
 
 </template>
 
 <script setup>
-
-  import Header from '@/components/Header.vue';
-  import Footer from '@/components/Footer.vue';
-  import { ref } from 'vue';
+  import { onMounted, onUpdated, ref } from 'vue';
 
   const count = ref(0);
 
-  function add() {
-    count.value++;
-  }
+  onMounted(() => {
+    console.log('mounted')
+  })
 
+  onUpdated(() => {
+    console.log('updated')
+  })
 </script>
 
 
