@@ -4,7 +4,9 @@
 
 <script>
     export default {
-        name: "Header"
+        unmounted(){
+            console.log('unmounted header')
+        }
     }
 </script>
 

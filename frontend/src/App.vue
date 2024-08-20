@@ -1,30 +1,42 @@
 <template>
-  
-  <Header />
 
-  <button v-on:click="add">Add {{ count }}</button>
+  <div v-if="showHeader">
+    <Header />
+  </div>
+
+  <button v-on:click="showHeader = !showHeader">Toggle header</button>
 
   <h2>App</h2>
 
-  <Footer/>
+  <router-link to="/">Home</router-link>
+  <router-link to="/about">About</router-link>
+
+  <router-view></router-view>
 
 </template>
 
-<script setup>
+<script>
 
-  import Header from '@/components/Header.vue';
-  import Footer from '@/components/Footer.vue';
-  import { ref } from 'vue';
+import Header from '@/components/Header.vue';
 
-  const count = ref(0);
+  export default {
 
-  function add() {
-    count.value++;
+    components:{Header},
+
+    data(){
+      return {
+        count:0,
+        showHeader:false
+      }
+    },
+
+    mounted(){
+      console.log('mounted');
+    },
+
+    updated(){
+      console.log('updated');
+    }
   }
 
 </script>
-
-
-<style scoped>
-  
-</style>
