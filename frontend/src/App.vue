@@ -2,6 +2,12 @@
 
   {{ count }}
 
+  {{ userName }}
+
+  <ul>
+    <li v-for="user in users">{{ user.firstName }} - {{ user.age }}</li>
+  </ul>
+
   <button v-on:click="count++">Add</button>
   
   <h2>App</h2>
@@ -14,9 +20,21 @@
 </template>
 
 <script setup>
-  import { onMounted, onUpdated, ref } from 'vue';
+  import { onMounted, onUpdated, reactive, ref } from 'vue';
 
   const count = ref(0);
+  const userName = ref("Leonardo");
+
+  const users = reactive([
+    {
+      firstName:"Leonardo",
+      age:21
+    },
+    {
+      firstName:"Ana",
+      age:23
+    },
+  ])
 
   onMounted(() => {
     console.log('mounted')
