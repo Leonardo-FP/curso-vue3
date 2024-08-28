@@ -1,56 +1,33 @@
 <template>
 
-  {{ count }}
-
-  {{ userName }}
-
+  <h2>Lista de Usuários</h2>
   <ul>
-    <li v-for="user in users">{{ user.firstName }} - {{ user.age }}</li>
+    <li v-for="user in users" :key="user.id">{{ user.firstName }}</li>
   </ul>
-
-  <div v-if="showHeader">
-    <Header />
-  </div>
-
-  <button v-on:click="showHeader = !showHeader">Toggle header</button>
-
-  <h2>App</h2>
-
-  <router-link to="/">Home</router-link>
-  <router-link to="/about">About</router-link>
-
-  <router-view></router-view>
 
 </template>
 
 <script>
-
-import Header from '@/components/Header.vue';
+  
+  import http from '@/services/http.js';
 
   export default {
 
-    components:{Header},
-
     data(){
       return {
-        count:0,
-        showHeader:false,
-        userName:"Leonardo",
-        users:[
-          {
-            firstName:"Leonardo",
-            age:21
-          },
-          {
-            firstName:"Ana",
-            age:23
-          },
-        ]
+        users:[]
       }
     },
 
-    mounted(){
-      console.log(this.count);
+    async mounted(){
+      try{
+        
+        const {data} = await http.get('http://localhost:8000/api/users');
+        this.users = data;
+
+      } catch(error) {
+        console.log(error)
+      }
     },
 
     updated(){
