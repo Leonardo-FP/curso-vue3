@@ -1,48 +1,31 @@
 <template>
 
-  {{ count }}
-
-  {{ userName }}
-
+  <h2>Lista de Usuários</h2>
   <ul>
-    <li v-for="user in users">{{ user.firstName }} - {{ user.age }}</li>
+    <li v-for="user in users.users" :key="user.id">{{ user.firstName }}</li>
   </ul>
-
-  <button v-on:click="count++">Add</button>
-  
-  <h2>App</h2>
-
-  <router-link to="/">Home</router-link>
-  <router-link to="/about">About</router-link>
-
-  <router-view></router-view>
 
 </template>
 
 <script setup>
-  import { onMounted, onUpdated, reactive, ref } from 'vue';
 
-  const count = ref(0);
-  const userName = ref("Leonardo");
+  import http from '@/services/http.js';
 
-  const users = reactive([
-    {
-      firstName:"Leonardo",
-      age:21
-    },
-    {
-      firstName:"Ana",
-      age:23
-    },
-  ])
+  import { onMounted, reactive } from 'vue';
 
-  onMounted(() => {
-    console.log('mounted')
+  let users = reactive({users:[]})
+
+  onMounted(async () => {
+    try {
+      
+      const {data} = await http.get('api/users');
+      users.users = data;
+
+    } catch (error) {
+      console.log(error)
+    }
   })
 
-  onUpdated(() => {
-    console.log('updated')
-  })
 </script>
 
 
