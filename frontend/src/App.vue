@@ -1,19 +1,10 @@
 <template>
 
-  <!-- Condicional IF e ELSE -->
-  <template v-if="showHeader">
-    <Header />
-  </template>
-  <template v-else>
-    Sem Header
-  </template>
+  <!-- Forma simplificada -->
+  <img :src="imageSrc" class="my-default-class" :class="classImage">
 
-  <hr>
-
-  <!-- Condicional SHOW -->
-  <span v-show="showHeader">
-    <Header />
-  </span>
+  <!-- Condicionais no v-bind -->
+  <img :src="imageSrc" :class="{'my-class':showImage, 'my-other-class':!showImage}">
 
   <hr>
 
@@ -37,7 +28,10 @@
     data(){
       return {
         users:[],
-        showHeader: false
+        showHeader: false,
+        showImage:false,
+        imageSrc:'https://picsum.photos/200',
+        classImage:'my-class'
       }
     },
 
@@ -58,3 +52,13 @@
   }
 
 </script>
+
+<style scoped>
+  .my-class{
+    border: solid 4px red;
+  }
+
+  .my-other-class{
+    border: solid 4px blue;
+  }
+</style>
