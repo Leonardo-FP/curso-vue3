@@ -1,6 +1,9 @@
 <template>
 
   <h2>Lista de Usuários</h2>
+
+  <img :src="imageSrc" alt="" class="my-default-class" :class="{'my-class':showImage, 'my-other-class':!showImage}">
+
   <ul>
     <li v-for="user in users.users" :key="user.id">{{ user.firstName }}</li>
   </ul>
@@ -11,9 +14,11 @@
 
   import http from '@/services/http.js';
 
-  import { onMounted, reactive } from 'vue';
+  import { onMounted, reactive, ref } from 'vue';
 
   let users = reactive({users:[]})
+  const imageSrc = ref('https://picsum.photos/200');
+  const showImage = ref(false);
 
   onMounted(async () => {
     try {
@@ -30,5 +35,11 @@
 
 
 <style scoped>
-  
+  .my-class {
+    border: solid 4px red;
+  }
+
+  .my-other-class {
+    border: solid 4px blue;
+  }
 </style>
