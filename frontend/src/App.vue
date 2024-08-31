@@ -1,53 +1,33 @@
 <template>
 
-  <!-- Forma simplificada -->
-  <img :src="imageSrc" class="my-default-class" :class="classImage">
+  <!-- Ao invés de colocar o "v-on:click", basta um arroba para chamar os eventos possíveis -->
+  <button @click="count++">Clique aqui {{ count }}</button>
 
-  <!-- Condicionais no v-bind -->
-  <img :src="imageSrc" :class="{'my-class':showImage, 'my-other-class':!showImage}">
+  <br>
 
-  <hr>
-
-  <h2>Lista de Usuários</h2>
-  <ul>
-    <li v-for="user in users" :key="user.id">
-        {{ user.firstName }} 
-        <button v-if="user.is_admin === 1">Change to not admin</button>
-    </li>
-  </ul>
-
+  <!-- É possível chamar uma função para casos mais complexos -->
+  <button @click="add('teste')">Clique aqui {{ countFunc }}</button>
 </template>
 
 <script>
   
-  import http from '@/services/http.js';
-  import Header from '@/components/Header.vue';
-
   export default {
-    components:{Header},
     data(){
       return {
-        users:[],
-        showHeader: false,
-        showImage:false,
-        imageSrc:'https://picsum.photos/200',
-        classImage:'my-class'
-      }
-    },
-
-    async mounted(){
-      try{
-        
-        const {data} = await http.get('api/users');
-        this.users = data;
-
-      } catch(error) {
-        console.log(error)
+        count:0,
+        countFunc:0
       }
     },
 
     updated(){
       console.log('updated');
+    },
+
+    methods:{
+      add(teste){
+        console.log(teste),
+        this.countFunc++
+      }
     }
   }
 
