@@ -1,12 +1,17 @@
 <template>
 
-  <!-- Ao invés de colocar o "v-on:click", basta um arroba para chamar os eventos possíveis -->
-  <button @click="count++">Clique aqui {{ count }}</button>
+  <!-- <input type="text" @keyup="add" placeholder="Digite"> -->
 
-  <br>
+  <!-- Digitando no input, o valor é atualizado, porém não é a melhor forma de se fazer -->
+  <!-- <input type="text" @keyup="alterName" placeholder="Digite"> -->
 
-  <!-- É possível chamar uma função para casos mais complexos -->
-  <button @click="add('teste')">Clique aqui {{ countFunc }}</button>
+  <!-- Usando o v-model, o valor reativo é atualizado -->
+  <input type="text" v-model="userName" placeholder="Digite o nome">
+
+  {{ userName }}
+
+  <button @click="count++">{{ count }}</button>
+
 </template>
 
 <script>
@@ -15,7 +20,7 @@
     data(){
       return {
         count:0,
-        countFunc:0
+        userName:''
       }
     },
 
@@ -24,9 +29,12 @@
     },
 
     methods:{
-      add(teste){
-        console.log(teste),
-        this.countFunc++
+      add(event){
+        this.count+=Number(event.target.value);
+      },
+
+      alterName(event){
+        this.userName=event.target.value;
       }
     }
   }
