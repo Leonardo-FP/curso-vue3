@@ -1,16 +1,15 @@
 <template>
 
-  <!-- <input type="text" @keyup="add" placeholder="Digite"> -->
+  <form action="http://google.com.br">
+    <input type="text" placeholder="Buscar">
+    <button @click.submit.prevent="search">Enviar</button>
+  </form>
 
-  <!-- Digitando no input, o valor é atualizado, porém não é a melhor forma de se fazer -->
-  <!-- <input type="text" @keyup="alterName" placeholder="Digite"> -->
-
-  <!-- Usando o v-model, o valor reativo é atualizado -->
-  <input type="text" v-model="userName" placeholder="Digite o nome">
-
-  {{ userName }}
-
-  <button @click="count++">{{ count }}</button>
+  <!-- Faz a função do Event.PreventDefault -->
+  <a href="http://google.com.br" @click.prevent="search">Ir para o Google</a>
+  {{ age }}
+  <!-- Faz com que só seja executado uma vez -->
+  <button @click.prevent.once="age++">Acrescentar idade</button>
 
 </template>
 
@@ -19,8 +18,7 @@
   export default {
     data(){
       return {
-        count:0,
-        userName:''
+        age:21,
       }
     },
 
@@ -29,13 +27,9 @@
     },
 
     methods:{
-      add(event){
-        this.count+=Number(event.target.value);
+      search(event){
+        console.log('buscou')
       },
-
-      alterName(event){
-        this.userName=event.target.value;
-      }
     }
   }
 
