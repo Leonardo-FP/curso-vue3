@@ -1,15 +1,10 @@
 <template>
 
-  <form action="http://google.com.br">
-    <input type="text" placeholder="Buscar">
-    <button @click.submit.prevent="search">Enviar</button>
-  </form>
+  <!-- Chama a função caso qualquer tecla tenha sido clicada -->
+  <input type="text" placeholder="Digite algo" @keyup="anyKey">
 
-  <!-- Faz a função do Event.PreventDefault -->
-  <a href="http://google.com.br" @click.prevent="search">Ir para o Google</a>
-  {{ age }}
-  <!-- Faz com que só seja executado uma vez -->
-  <button @click.prevent.once="age++">Acrescentar idade</button>
+  <!-- Chama a função caso o modificador especificado tenha sido clicado -->
+  <input type="text" placeholder="Digite enter" @keyup.enter="specificKey">
 
 </template>
 
@@ -27,8 +22,12 @@
     },
 
     methods:{
-      search(event){
-        console.log('buscou')
+      anyKey(){
+        console.log('Pressionou qualquer tecla')
+      },
+      
+      specificKey(){
+        console.log('Pressionou a tecla enter')
       },
     }
   }
