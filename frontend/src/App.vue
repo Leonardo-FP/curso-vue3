@@ -1,41 +1,40 @@
 <template>
 
-  <button @click="add('composition api')">Clique aqui {{ count }}</button>
+  <input type="text" name="" id="" v-model="userName">
 
-  <!-- Jeito incorreto de se trabalhar, chamando uma função para fazer a atualização -->
-  <!-- <input type="text" @keyup="changeName" placeholder="Digite o nome"> -->
+  <template v-for="user in users">
+    <input type="checkbox" @click="userName = user.firstName" :checked="userName === user.firstName"> {{ user.firstName }}
+  </template>
 
-  <input type="text" v-model="userName" placeholder="Digite o nome">
-
-  {{ userName }}
+  <select name="" v-model="userName">
+    <option :value="user.firstName" v-for="user in users">{{ user.firstName }}</option>
+  </select>
 
 </template>
 
 <script setup>
+  import { reactive, ref } from 'vue';
 
-  import {ref} from "vue";
+  const users = reactive([
+    {
+      id:1,
+      firstName:'Leo'
+    },
+    {
+      id:2,
+      firstName:'Ana'
+    },
+    {
+      id:3,
+      firstName:'Beatriz'
+    }
+  ])
 
-  let count = ref(0);
-  let userName = ref('');
-
-  function add(teste){
-    console.log(teste)
-    count.value++;
-  }
-
-  function changeName(event){
-    userName.value = event.target.value;
-  }
+  const userName = ref('Leo')
 
 </script>
 
 
 <style scoped>
-  .my-class {
-    border: solid 4px red;
-  }
-
-  .my-other-class {
-    border: solid 4px blue;
-  }
+  
 </style>
