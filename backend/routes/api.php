@@ -19,6 +19,20 @@ Route::get('/users', function(){
     return User::all();
 });
 
+Route::post('/user', function(Request $request){
+    return $request->validate([
+        'firstName' => 'required',
+        'lastName' => 'required',
+        'email' => 'required|unique:users',
+        'password' => 'required',
+    ],[
+        'firstName.required' => 'O campo nome é obrigatório',
+        'lastName.required' => 'O campo sobrenome é obrigatório',
+        'email.unique' => 'Esse e-mail já está sendo utilizado',
+        'password.required' => 'O campo senha é obrigatório',
+    ]);
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
