@@ -3,9 +3,7 @@
 
   <router-view></router-view>
 
-  <button @click="count++">Add - {{ count }}</button>
 
-  <CountChild v-on:addCount="add" />
 </template>
 
 <script>
