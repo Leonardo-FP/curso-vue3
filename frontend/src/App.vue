@@ -2,10 +2,6 @@
   <Nav />
 
   <router-view></router-view>
-
-  <button @click="count++">add count - {{ count }}</button>
-
-  <CountChild v-on:addCount="add" />
 </template>
 
 <script setup>
