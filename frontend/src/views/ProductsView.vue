@@ -1,23 +1,37 @@
 <template>
-    <h2 id="app-products">Products</h2>
-    <h2>Products my app</h2>
-
-    <h2>Product 1</h2>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, impedit! Unde molestias a doloribus neque aspernatur voluptates ex expedita dolore, assumenda iste sapiente mollitia praesentium illum veniam itaque maxime? Debitis.</p>
-    <ProductInfo :likes="product.likes" :comments="product.comments" />
+  <Products :products="products" v-slot="props">
+    <li @click="getProduct(props.product.id)">{{ props.product.name }}</li>
+  </Products>
 </template>
 
 <script>
     import ProductInfo from '@/components/ProductInfo.vue';
+    import Products from '@/components/Products.vue';
+
     export default {
-        components:{ProductInfo},
+        components:{ProductInfo,Products},
         name: "Products.vue",
         data(){
             return {
-                product:{
-                    likes:20, 
-                    comments:30
-                }
+                products:[
+                    {
+                        id:1,
+                        name:'Macbook'
+                    },
+                    {
+                        id:2,
+                        name:'Mouse',
+                    },
+                    {
+                        id:3,
+                        name:'Keyboard',
+                    },
+                ],
+            }
+        },
+        methods:{
+            getProduct(id){
+                console.log(id)
             }
         }
     }
