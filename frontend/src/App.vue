@@ -3,17 +3,15 @@
 
   <router-view></router-view>
 
-  <ul>
-    <li v-for="(item, index) in items" :key="index" ref="item">{{ item.name }}</li>
-  </ul>
+  <input type="text" placeholder="busca" @keyup="search">
 
-  <img src="https://picsum.photos/200" alt="" ref="img">
 </template>
 
 <script>
   
   import Nav from '@/components/Nav.vue';
   import CountChild from './components/CountChild.vue';
+  import _ from 'lodash';
 
   export default {
     
@@ -34,16 +32,17 @@
 
     mounted(){
       // console.log(document.querySelectorAll('#item'))
-      // Trabalhar com refs substitui utilizar o querySelect do javascript
       console.log(this.$refs.item)
-      console.log(this.$refs.img)
-      console.log(this.$refs.img['src'])
     },
 
     methods:{
       add(value){
         this.count+=value
-      }
+      },
+
+      search: _.debounce(() => {
+        console.log('search')
+      }, 1000)
     }
   }
 
