@@ -1,32 +1,66 @@
 <template>
-  <button @click="openModal=true">Abrir Modal</button>
 
-  <template v-if="openModal">
-    <Modal>
-      <template #header>
-        <h2>Header do modal</h2>
-      </template>
+  <input type="text" placeholder="Search" @keyup="search">
 
-			<template #default>Valor default</template>
+  <ul>
+    <li v-for="(user, index) in users" :key="index">{{ user.firstName }} {{ user.lastName }}</li>
+  </ul>
 
-      <template #footer>
-        <h2>Footer do modal</h2>
-      </template>
-    </Modal>
-  </template>
+  <div v-html="userNotFound"></div>
+
 </template>
 
 <script>
-	import Modal from '@/components/Modal.vue';
+  import http from '@/services/http.js';
+  import _ from 'lodash';
 
   export default {
-		components:{Modal},
+    
     data(){
       return {
-        openModal:false
+        users:[],
+        loading:true
       }
+    },
+
+    computed:{
+      userNotFound(){
+        return (!this.loading && this.users.length <=0) ? '<span id="notFound">Nenhum user encontrado</span>' : ''
+      }
+    },
+    
+    async mounted(){
+      try{
+        const {data} = await http.get('/api/users');
+        this.loading = false;
+        this.users = data;
+      }catch(error){
+        console.log(error.response.data);
+      }
+    },
+
+    methods:{
+      search:_.debounce(async function (event) {
+
+        try{
+          const {data} = await http.get('/api/users/search',{
+            params:{
+              user: event.target.value
+            }
+          })
+
+          this.users = data;
+        }catch(error){
+          console.log(error.response.data);
+        }
+      }, 1000)
     }
   }
 </script>
 
+<style >
+  #notFound {
+    color: red;
+  }
+</style>
 

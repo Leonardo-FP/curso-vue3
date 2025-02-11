@@ -3,8 +3,6 @@
 
   <router-view></router-view>
 
-  <input type="text" placeholder="busca" @keyup="search">
-
 </template>
 
 <script>
