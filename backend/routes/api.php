@@ -19,6 +19,12 @@ Route::get('/users', function(){
     return User::all();
 });
 
+Route::get('/users/search', function(Request $request){
+    $user = $request->input('user');
+
+    return User::where('firstName', 'like', '%'.$user.'%')->get();
+});
+
 Route::post('/user', function(Request $request){
     $request->validate([
         'firstName' => 'required',
