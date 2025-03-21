@@ -8,7 +8,11 @@
 
   <Bootstrap5Pagination 
     :data="users['users']"
-    @pagination-change-page="getUsers" 
+    :limit="2"
+    :show-disabled="true"
+    size="small"
+    align="center"
+    @pagination-change-page="handleEventPagination" 
   />
 
   <div v-html="userNotFound"></div>
@@ -24,14 +28,19 @@
 
   const users = reactive({users:[]});
   const userSearch = ref();
+  const searched = ref(true);
   const loading = ref(true);
 
+  function handleEventPagination(page){
+    return searched.value ? searchUSer(page) : getUsers(page)
+  }
 
   async function getUsers(page = 1) {
     try{
 
       const {data} = await http.get('/api/users?page='+Number(page));
       users['users'] = data;
+      loading.value = false;
 
     } catch(error) {
 
@@ -41,30 +50,37 @@
   }
 
   const userNotFound = computed(() => {
-    return (!loading.value && users['users'].length <= 0) ? '<span id="notFound">Nenhum user encontrado</span>' : ''
+    return (!loading.value && users['users'].data.length <= 0) ? '<span id="notFound">Nenhum user encontrado</span>' : ''
   })
 
   onMounted(() => {
     getUsers();
   })
 
-  const search = _.debounce(async () => {
-    
+  async function searchUSer(page=1){
     try{
-
-      const {data} = await http.get('/api/users/search',{
+      const {data} = await http.get('/api/users/search?page='+Number(page),{
         params:{
           user:userSearch.value
         }
       })
 
+      if(!userSearch.value){
+        searched.value = false;
+        getUsers();
+        return;
+      }
+        
+      searched.value = true;
       users['users'] = data;
-      loading.value = false;
 
-    } catch(error) {
+      } catch(error) {
       console.log(error.response.data);
-    }
+      }
+  }
 
+  const search = _.debounce(async () => {
+    searchUSer();    
   },1000)
 
 </script>

@@ -22,7 +22,7 @@ Route::get('/users', function(){
 Route::get('/users/search', function(Request $request){
     $user = $request->input('user');
 
-    return User::where('firstName', 'like', '%'.$user.'%')->get();
+    return User::where('firstName', 'like', '%'.$user.'%')->paginate(1);
 });
 
 Route::post('/user', function(Request $request){
