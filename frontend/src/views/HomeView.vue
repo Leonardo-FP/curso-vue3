@@ -1,6 +1,6 @@
 <template>
 
-  <input type="text" placeholder="Search" @keyup="search">
+  <input type="text" placeholder="Search" @keyup="search" v-model="searchInput">
 
   <ul>
     <li v-for="(user, index) in users.data" :key="index">{{ user.firstName }} {{ user.lastName }}</li>
@@ -8,7 +8,9 @@
 
   <Bootstrap5Pagination  
     :data="users" 
-    @pagination-change-page="getUsers" 
+    @pagination-change-page="handlePagination" 
+    :limit="5"
+    align="center"
   />
 
   <div v-html="userNotFound"></div>
@@ -27,13 +29,15 @@
     data(){
       return {
         users:[],
-        loading:true
+        loading:true,
+        searchInput:'',
+        searched:false
       }
     },
 
     computed:{
       userNotFound(){
-        return (!this.loading && this.users.length <=0) ? '<span id="notFound">Nenhum user encontrado</span>' : ''
+        return (!this.loading && this.users.data.length <=0) ? '<span id="notFound">Nenhum user encontrado</span>' : ''
       }
     },
     
@@ -42,6 +46,10 @@
     },
 
     methods:{
+
+      handlePagination(page){
+        return this.searched ? this.searchUsers(page) : this.getUsers(page);
+      },
       
       async getUsers(page = 1){
         try{
@@ -52,20 +60,31 @@
           console.log(error.response.data);
         }
       },
-      
-      search:_.debounce(async function (event) {
 
+      async searchUsers(page = 1){
         try{
-          const {data} = await http.get('/api/users/search',{
+          const {data} = await http.get('/api/users/search?page='+Number(page),{
             params:{
-              user: event.target.value
+              user: this.searchInput
             }
           })
+
+          if(!this.searchInput){
+            this.searched = false;
+            this.getUsers();
+          }else{
+            this.searched = true;
+            this.users = data;
+          }
 
           this.users = data;
         }catch(error){
           console.log(error.response.data);
         }
+      },
+      
+      search:_.debounce(async function (event) {
+        this.searchUsers();
       }, 1000)
     }
   }

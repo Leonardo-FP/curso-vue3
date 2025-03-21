@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/users', function(){
-    return User::paginate(10);
+    return User::paginate(5);
 });
 
 Route::get('/users/search', function(Request $request){
     $user = $request->input('user');
-    return User::where('firstName', 'like', '%'.$user.'%')->get();
+    return User::where('firstName', 'like', '%'.$user.'%')->paginate(5);
 });
 
 Route::post('/user', function(Request $request){
