@@ -1,14 +1,7 @@
 <template>
-  <Nav />
+  <!-- <Nav /> -->
 
   <router-view></router-view>
-
-  <button v-on:click="addItem">Add</button>
-  <ul>
-    <li v-for="(item, index) in items" :key="item">
-      <input placeholder="Qualquer coisa" /> <button v-on:click="remove(index)">Remove</button>
-    </li>
-  </ul>
 
 </template>
 
