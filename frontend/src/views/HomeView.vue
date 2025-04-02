@@ -1,51 +1,59 @@
 <template>
-  <Currency type="text" v-model="dolar" placeholder="Dólar" :options="{ currency: 'USD'} " />
 
-  <hr>
+  <span ref="span">Conteúdo do span</span>
 
+  <input type="text" v-model="user.firstName">
+  
   <ul>
-    <li>{{ dolarTodayValue }}</li>
-    <li>{{ dolarToReaisValue }}</li>
+    <li v-for="item in items">
+      {{ item.name }}
+      <input type="text" v-model="item.name">
+    </li>
   </ul>
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, watch } from 'vue';
-  import http from '../services/http';
-  import format from '../services/format';
-  import Currency from '@/components/Currency.vue'
-  
-  const dolar = ref(0);
-  const dolarToday = ref(0);
-  const dolarToReal = ref(0);
-
-  const dolarToReaisValue = computed(() => {
-    return `O valor em reais de ${format(dolar.value, 'en-US', 'USD')} é ${format(dolarToReal.value, 'pt-BR', 'BRL')}`;
-  });
-
-  const dolarTodayValue = computed(() => {
-    return `O dólar hoje está em: ${format(dolarToday.value, 'pt-BR', 'BRL')}`;
+  import { ref, computed, onMounted, watch, watchEffect, reactive } from 'vue';
+ 
+  const firstName = ref('');
+  const lastName = ref('');
+  const span = ref(null);
+  const user = reactive({
+    firstName:'',
+    lastName:''
   })
 
-  onMounted(async () => {
-    try{
-      const dolar = await getDolar();
-      dolarToday.value = dolar.high;
-    }catch(error){
-      console.log(error);
+  const items = reactive([
+    {
+      id: 1, 
+      name: 'Leonardo'
+    },
+    {
+      id: 2, 
+      name: 'Paulelli'
     }
-    getDolar()
+  ])
+
+  onMounted(() => {
+    console.log(span.value.textContent);
   })
 
-  async function getDolar(typeCurrency = 'USD-BRL'){
-    const {data} = await http.get('https://economia.awesomeapi.com.br/json/last/'+typeCurrency);
+  // Chamado depois do component ser montado
+  // Usado para ter controle das propriedades reativas
+  // Permite obter o valor anterior 
+  // Só é chamado quando a propriedade reativa é alterada
+  watch(
+    () => user.firstName, 
+    (value, oldValue) => {
+      console.log(value, oldValue)
+    }
+  )
 
-    const currency = typeCurrency.split('-').join('');
-    return data[currency];
-  }
-
-  watch(dolar, (value) => {
-    dolarToReal.value = value * Number(dolarToday.value);
+  // Chamado antes do component ser montado
+  // Observa tudo
+  // Não permite obter o valor anterior
+  watchEffect(() => {
+    // console.log(span.value.textContent)
   })
 
 </script>
