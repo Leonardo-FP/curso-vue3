@@ -28,11 +28,10 @@
 
   const users = reactive({users:[]});
   const userSearch = ref();
-  const searched = ref(true);
   const loading = ref(true);
 
   function handleEventPagination(page){
-    return searched.value ? searchUSer(page) : getUsers(page)
+    return userSearch.value ? searchUSer(page) : getUsers(page)
   }
 
   async function getUsers(page = 1) {
@@ -66,12 +65,10 @@
       })
 
       if(!userSearch.value){
-        searched.value = false;
         getUsers();
         return;
       }
         
-      searched.value = true;
       users['users'] = data;
 
       } catch(error) {
