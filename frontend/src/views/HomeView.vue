@@ -31,7 +31,6 @@
         users:[],
         loading:true,
         searchInput:'',
-        searched:false
       }
     },
 
@@ -48,7 +47,7 @@
     methods:{
 
       handlePagination(page){
-        return this.searched ? this.searchUsers(page) : this.getUsers(page);
+        return this.searchInput ? this.searchUsers(page) : this.getUsers(page);
       },
       
       async getUsers(page = 1){
@@ -70,10 +69,8 @@
           })
 
           if(!this.searchInput){
-            this.searched = false;
             this.getUsers();
           }else{
-            this.searched = true;
             this.users = data;
           }
 

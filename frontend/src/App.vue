@@ -1,7 +1,7 @@
 <template>
-  <!-- <Nav /> -->
+  <Nav />
 
-  <!-- <router-view></router-view> -->
+  <router-view></router-view>
 
   <button v-on:click="addItem">Add</button>
   <ul>
