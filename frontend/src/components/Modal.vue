@@ -1,7 +1,8 @@
 <template>
-    <slot name="header"></slot>
-    <slot></slot>
-    <slot name="footer"></slot>
+    <div>
+        <h2>Modal</h2>
+        <slot></slot>
+    </div>
 </template>
 
 <script>

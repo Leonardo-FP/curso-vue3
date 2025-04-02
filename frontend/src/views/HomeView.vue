@@ -1,16 +1,29 @@
 <template>
   <button @click="showSomething()">Show</button>
 
-  <input type="text" ref="inputElement" v-if="showElement">
+  <button @click="open = !open">Open Modal</button>
+
+  <teleport to="#modal">
+    <Modal v-if="open">
+      Qualquer coisa
+    </Modal>
+  </teleport>
+
 </template>
 
 <script>
+  import Modal from '@/components/Modal.vue';
   export default {
 
     data(){
       return {
-        showElement:false
+        showElement:false,
+        open:false,
       }
+    },
+
+    components:{
+      Modal
     },
 
     methods:{
@@ -30,3 +43,13 @@
 
   }
 </script>
+
+<style>
+  #app {
+    color: tomato;
+  }
+
+  #lorem {
+    color: blue;
+  }
+</style>
