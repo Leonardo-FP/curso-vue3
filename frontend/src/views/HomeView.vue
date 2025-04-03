@@ -1,50 +1,20 @@
 <template>
-  <button @click="increment">Add</button>
-  {{ count }}
-
+  <button @click="$store.commit('increment')">Add</button>
+  <!-- <button @click="increment">Add</button> -->
+  {{ $store.state.count }}
   <hr>
-
-  <ul>
-    <li v-for="(user, index) in usersData" :key="index">{{ user.firstName }}</li>
-  </ul>
-
-  <hr>
-
-  {{ getTotalUsers }}
-
-  <hr>
-
-  {{ name }}
+  {{ $store.getters.getCounter }}
 </template>
 
 <script>
   
-  import count from '@/mixins/count';
-  import users from '@/mixins/users';
-
   export default {
-
-    mixins:[count, users],
-
-    data(){
-      return{
-        name:'Leo'
+    methods:{
+      increment(){
+        // this.$store.dispatch('increment')
+        this.$store.commit('increment')
       }
-    },
-
-    mounted(){
-      console.log('Chamou de dentro do Mounted do componente')
     }
-
   }
+
 </script>
-
-<style>
-  #app {
-    color: tomato;
-  }
-
-  #lorem {
-    color: blue;
-  }
-</style>
