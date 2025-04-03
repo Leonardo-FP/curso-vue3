@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/users', function(){
-    return User::paginate(10);
+    return User::get();
 });
 
 Route::get('/users/search', function(Request $request){
