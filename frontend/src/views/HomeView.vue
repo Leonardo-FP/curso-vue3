@@ -1,14 +1,20 @@
 <template>
-  <button @click="showSomething()">Show</button>
+  <button @click="open = !open">Abrir Modal</button>
   
-  <input type="text" v-if="showElement" ref="inputElement">
+  <teleport to="#modal">
+    <Modal v-if="open">
+      Conteúdo do Modal
+    </Modal>
+  </teleport>
 </template>
 
 <script setup>
   import { ref, nextTick } from 'vue';
+  import Modal from '@/components/Modal.vue';
   
   const showElement = ref(false);
   const inputElement = ref(null);
+  const open = ref(false);
 
   async function showSomething(){
     showElement.value = true;
@@ -22,3 +28,9 @@
     console.log('carregou')
   }
 </script>
+
+<style>
+  #app {
+    color: tomato;
+  }
+</style>
