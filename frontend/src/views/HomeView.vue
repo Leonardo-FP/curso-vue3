@@ -1,44 +1,39 @@
 <template>
-  <button @click="showSomething()">Show</button>
+  <button @click="increment">Add</button>
+  {{ count }}
 
-  <button @click="open = !open">Open Modal</button>
+  <hr>
 
-  <teleport to="#modal">
-    <Modal v-if="open">
-      Qualquer coisa
-    </Modal>
-  </teleport>
+  <ul>
+    <li v-for="(user, index) in usersData" :key="index">{{ user.firstName }}</li>
+  </ul>
 
+  <hr>
+
+  {{ getTotalUsers }}
+
+  <hr>
+
+  {{ name }}
 </template>
 
 <script>
-  import Modal from '@/components/Modal.vue';
+  
+  import count from '@/mixins/count';
+  import users from '@/mixins/users';
+
   export default {
 
+    mixins:[count, users],
+
     data(){
-      return {
-        showElement:false,
-        open:false,
+      return{
+        name:'Leo'
       }
     },
 
-    components:{
-      Modal
-    },
-
-    methods:{
-      async showSomething(){
-        this.showElement = true;
-
-        // Permite acessar os elementos do DOM após carregados
-        // Também é possível implementar o await nele, para esperar que seja carregado antes do que vêm antes
-        await this.$nextTick(() => {
-          this.$refs.inputElement.focus();
-          console.log('focus')
-        })
-
-        console.log('carregou')
-      }
+    mounted(){
+      console.log('Chamou de dentro do Mounted do componente')
     }
 
   }
