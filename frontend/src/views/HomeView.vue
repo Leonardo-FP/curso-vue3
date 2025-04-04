@@ -1,20 +1,23 @@
 <template>
-  <button @click="$store.commit('increment')">Add</button>
-  <!-- <button @click="increment">Add</button> -->
-  {{ $store.state.count }}
+  <button @click="increment(10)">Add</button>
+
+  {{ count }}
   <hr>
   {{ $store.getters.getCounter }}
 </template>
 
 <script>
   
+  import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
+
   export default {
-    methods:{
-      increment(){
-        // this.$store.dispatch('increment')
-        this.$store.commit('increment')
-      }
-    }
+    
+    computed:{
+      ...mapState(['count']),
+      ...mapGetters(['getCounter'])
+    },
+
+    methods:mapMutations(['increment'])
   }
 
 </script>
