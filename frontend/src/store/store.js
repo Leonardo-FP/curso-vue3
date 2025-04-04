@@ -1,24 +1,12 @@
 import {createStore} from 'vuex';
+import counter from '@/store/counter';
+import users from '@/store/users';
 
 const store = createStore({
-    state:{
-        count:0
-    },
-    actions:{
-        increment(state, payload){
-            state.commit('increment')
-        }
-    },
-    mutations:{
-        increment(state, payload){
-            state.count++
-        }
-    },
-    getters:{
-        getCounter(state){
-            return 'O total do count é '+state.count;
-        }
-    },
+  modules:{
+    counter,
+    users
+  }
 })
 
 export default store;
