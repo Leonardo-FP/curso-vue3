@@ -1,23 +1,34 @@
 <template>
-  <button @click="increment(10)">Add</button>
-
-  {{ count }}
+  <button @click="increment">Add</button>
+  {{ $store.state.counter.count }}
   <hr>
-  {{ $store.getters.getCounter }}
+
+  <h2>Users</h2>
+  
+  <template v-if="$store.state.users.data.length > 0">
+    <button @click="$store.dispatch('users/hideUsers')">Hide users</button>
+    <ul>
+      <li v-for="(user, index) in $store.state.users.data" :key="index">
+        {{ user.firstName }}
+      </li>
+    </ul>
+  </template>
+  <template v-else>
+    <button @click="$store.dispatch('users/getUsers')">Get users</button>
+  </template>
+  
 </template>
 
 <script>
-  
-  import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
+import { keyBy } from 'lodash';
+
 
   export default {
-    
-    computed:{
-      ...mapState(['count']),
-      ...mapGetters(['getCounter'])
-    },
-
-    methods:mapMutations(['increment'])
+    methods:{
+      increment(){
+        this.$store.commit('counter/increment',10)
+      }
+    }
   }
 
 </script>
